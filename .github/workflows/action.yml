@@ -48,7 +48,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Unit test & generate coverage
-        run: npm run test -- --coverage --watchAll=false
+        run: |
+          node -v
+          npm -v
+          npm run test -- --coverage --watchAll=false
   sonarQubeTrigger:
     name: SonarQube Trigger
     runs-on: ubuntu-latest
