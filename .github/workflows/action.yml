@@ -4,60 +4,62 @@ on:
   - push
 
 jobs:
-  npm-dependency-check-unused-packages:
-    name: Check Unused dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: packages check
-        uses: Amr-Reda/npm-unused-packages-checker@v1
-        with:
-          IGNORE_PACKAGES: '["jade"]'
-          IGNORE_PATTERNS: '["*.json"]'
-  # npm-dependency-check-new-packages:
-  #   name: Check new dependencies
+  # npm-dependency-check-unused-packages:
+  #   name: Check Unused dependencies
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - name: Check for new dependencies
-  #       uses: hiwelo/new-dependencies-action@1.0.1
+  #     - uses: actions/checkout@v1
+  #     - name: packages check
+  #       uses: Amr-Reda/npm-unused-packages-checker@v1
   #       with:
-  #         token: ${{ secrets.AUTH_TOKEN }}
-  run-Eslint-quality-check:
-    name: Run NPM eslint
+  #         IGNORE_PACKAGES: '["jade"]'
+  #         IGNORE_PATTERNS: '["*.json"]'
+  npm-dependency-check-new-packages:
+    name: Check new dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Run NPM eslint
-        uses: anna-money/github-actions-npm@v1
-  prettier:
-    name: Run prettier check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Check for new dependencies
+        uses: hiwelo/new-dependencies-action@1.0.1
         with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
-      - name: Prettify code
-        uses: creyD/prettier_action@v2.2
-        with:
-          # This part is also where you can pass other options, for example:
-          prettier_options: --write **/*.{js,md}
+          token: ${{ secrets.AUTH_TOKEN }}
+  # run-Eslint-quality-check:
+  #   name: Run NPM eslint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Run NPM eslint
+  #       uses: anna-money/github-actions-npm@v1
+  # prettier:
+  #   name: Run prettier check
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         # Make sure the actual branch is checked out when running on pull requests
+  #         ref: ${{ github.head_ref }}
+  #     - name: Prettify code
+  #       uses: creyD/prettier_action@v2.2
+  #       with:
+  #         # This part is also where you can pass other options, for example:
+  #         prettier_options: --write **/*.{js,md}
   unit-testing:
     name: Run unit test scripts and generate coverge report
     runs-on: ubuntu-latest
     steps:
       - name: Run Unit test & generate coverage
+        working-directory: ${{ github.workspace }}
         run: |
           node -v
           npm -v
-  sonarQubeTrigger:
-    name: SonarQube Trigger
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@master
-        with:
-          host: ${{ secrets.SONAR_HOST }}
-          login: ${{ secrets.SONAR_TOKEN }}
+          npm run test -- --coverage --watchAll=false
+  # sonarQubeTrigger:
+  #   name: SonarQube Trigger
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - name: SonarQube Scan
+  #       uses: kitabisa/sonarqube-action@master
+  #       with:
+  #         host: ${{ secrets.SONAR_HOST }}
+  #         login: ${{ secrets.SONAR_TOKEN }}
