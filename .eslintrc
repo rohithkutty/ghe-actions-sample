@@ -2,17 +2,21 @@
   "env": {
     "browser": true,
     "jest": true,
-    "es6": true
+    "es6": true,
+    "serviceworker": false
   },
-  "plugins": ["import"],
-  "extends": "eslint:recommended",
+  "extends": ["plugin:react/recommended", "eslint:recommended"],
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "rules": {
     "no-console": "warn",
     "no-eval": "error",
-    "import/first": "error"
-  }
+    "import/first": 0
+  },
+  "plugins": ["react", "jsx-a11y"]
 }
