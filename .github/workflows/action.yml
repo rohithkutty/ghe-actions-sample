@@ -56,8 +56,8 @@ jobs:
       - name: Generate unit-test coverage folder
         working-directory: ${{ github.workspace }}
         run: |
-        npm install
-        npm run test -- --coverage --watchAll=false
+          npm install
+          npm run test -- --coverage --watchAll=false
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@master
         with:
