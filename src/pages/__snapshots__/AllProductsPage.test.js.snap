@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`When productsList array passed to ProductsList is null should not crash 1`] = `ShallowWrapper {}`;
-
-exports[`When productsList array passed to ProductsList should not crash 1`] = `ShallowWrapper {}`;
