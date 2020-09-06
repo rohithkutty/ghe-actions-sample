@@ -43,6 +43,12 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           prettier_options: --write **/*.{js,md}
+  unit-testing:
+    name: Run unit test scripts and generate coverge report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Unit test & generate coverage
+        run: npm run test -- --coverage --watchAll=false
   sonarQubeTrigger:
     name: SonarQube Trigger
     runs-on: ubuntu-latest
