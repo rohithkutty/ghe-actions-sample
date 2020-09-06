@@ -1,9 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+import { shallow, render, mount } from 'enzyme';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import App from './App';
+import AllProductsPage from './pages/AllProductsPage';
+
+describe('App.jsx', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(<App />);
+  });
+
+  it('should render the "AllProductsPage" component', () => {
+    expect(wrapper.find(AllProductsPage).length).toBe(1);
+  });
 });
