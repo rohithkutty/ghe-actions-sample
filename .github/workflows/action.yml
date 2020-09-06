@@ -4,11 +4,11 @@ on: [push]
 
 jobs:
   npm-dependency-check:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: packages check
         uses: Amr-Reda/npm-unused-packages-checker@v1
         with:
-          IGNORE_PACKAGES:  '["jade"]'
-          IGNORE_PATHS:  '["/test"]'
+          IGNORE_PACKAGES: '["jade"]'
+          IGNORE_PATHS: '["/test"]'
