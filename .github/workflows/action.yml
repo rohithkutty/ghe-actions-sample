@@ -62,6 +62,7 @@ jobs:
           npm install
           npm run test -- --coverage --watchAll=false
       - name: SonarQube Scan
+        run: ls -al
         uses: kitabisa/sonarqube-action@master
         with:
           host: ${{ secrets.SONAR_HOST }}
