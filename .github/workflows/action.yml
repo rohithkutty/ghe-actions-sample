@@ -63,6 +63,7 @@ jobs:
           npm run test -- --coverage --watchAll=false
           ls -al
       - name: SonarQube Scan
+        working-directory: ${{ github.workspace }}
         uses: kitabisa/sonarqube-action@master
         with:
           host: ${{ secrets.SONAR_HOST }}
