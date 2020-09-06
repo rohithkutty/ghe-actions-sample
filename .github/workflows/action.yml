@@ -1,6 +1,6 @@
 name: Test & Build workflow
 
-on: 
+on:
   - push
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
         with:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
-  npm-dependency-check-unused-packages:
+  npm-dependency-check-new-packages:
     name: Check new dependencies
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +24,6 @@ jobs:
     name: Run NPM eslint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Run NPM eslint
-      uses: anna-money/github-actions-npm@v1
-
+      - uses: actions/checkout@v1
+      - name: Run NPM eslint
+        uses: anna-money/github-actions-npm@v1
