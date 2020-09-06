@@ -29,3 +29,17 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run NPM eslint
         uses: anna-money/github-actions-npm@v1
+  prettier:
+    name: Run prettier check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+      - name: Prettify code
+        uses: creyD/prettier_action@v2.2
+        with:
+          # This part is also where you can pass other options, for example:
+          prettier_options: --write **/*.{js,md}
