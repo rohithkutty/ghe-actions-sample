@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, render, mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
 
 import AllProductsPage from './AllProductsPage';
 import ProductsList from '../components/ProductsList';
@@ -29,7 +30,7 @@ describe('When productsList array passed to ProductsList is null', () => {
   });
 
   it('should not crash', () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });
 
@@ -45,6 +46,6 @@ describe('When productsList array passed to ProductsList', () => {
   });
 
   it('should not crash', () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });
