@@ -4,52 +4,52 @@ on:
   - push
 
 jobs:
-  npm-dependency-check-unused-packages:
-    name: Check Unused dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: packages check
-        uses: Amr-Reda/npm-unused-packages-checker@v1
-        with:
-          IGNORE_PACKAGES: '["jade"]'
-          IGNORE_PATTERNS: '["*.json"]'
-  run-Eslint-quality-check:
-    name: Run Eslint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use current action
-        uses: getsentry/action-eslint-fix@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          dry: true
-  prettier:
-    name: Run prettier check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
-      - name: Prettify code
-        uses: creyD/prettier_action@v2.2
-        with:
-          prettier_options: --write **/*.{js,md}
-  run-unit-testing-and-build-artefacts:
-    name: Install node_modules & Run unit test scripts and generate coverge report
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Install node_modules & Run Unit test & Build artefacts
-        working-directory: ${{ github.workspace }}
-        run: |
-          node -v
-          npm -v
-          npm install
-          npm run test -- --watchAll=false
-          npm run build
+  # npm-dependency-check-unused-packages:
+  #   name: Check Unused dependencies
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: packages check
+  #       uses: Amr-Reda/npm-unused-packages-checker@v1
+  #       with:
+  #         IGNORE_PACKAGES: '["jade"]'
+  #         IGNORE_PATTERNS: '["*.json"]'
+  # run-Eslint-quality-check:
+  #   name: Run Eslint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Use current action
+  #       uses: getsentry/action-eslint-fix@v1
+  #       with:
+  #         GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+  #         dry: true
+  # prettier:
+  #   name: Run prettier check
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         # Make sure the actual branch is checked out when running on pull requests
+  #         ref: ${{ github.head_ref }}
+  #     - name: Prettify code
+  #       uses: creyD/prettier_action@v2.2
+  #       with:
+  #         prettier_options: --write **/*.{js,md}
+  # run-unit-testing-and-build-artefacts:
+  #   name: Install node_modules & Run unit test scripts and generate coverge report
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - name: Install node_modules & Run Unit test & Build artefacts
+  #       working-directory: ${{ github.workspace }}
+  #       run: |
+  #         node -v
+  #         npm -v
+  #         npm install
+  #         npm run test -- --watchAll=false
+  #         npm run build
   sonarQubeTrigger:
     name: Quality gate - SonarQube
     runs-on: ubuntu-latest
@@ -65,6 +65,7 @@ jobs:
           npm run test -- --coverage --watchAll=false
           rm -rf node_modules
           ls -lRt
+          pwd
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@master
         with:
