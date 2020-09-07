@@ -1,7 +1,9 @@
 name: Test & Build workflow
 
 on:
-  - push
+  - push:
+    branches:
+      - master
 
 jobs:
   # npm-dependency-check-unused-packages:
@@ -59,7 +61,7 @@ jobs:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
       - name: Generate unit-test coverage folder
-        working-directory: ${{ github.workspace }}
+        # working-directory: ${{ github.workspace }}
         run: |
           npm install
           npm run test -- --coverage --watchAll=false
