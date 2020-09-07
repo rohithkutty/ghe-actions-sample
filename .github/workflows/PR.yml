@@ -1,0 +1,40 @@
+name: Test & Build workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  npm-dependency-check-unused-packages:
+    name: Check Unused dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: packages check
+        uses: Amr-Reda/npm-unused-packages-checker@v1
+        with:
+          IGNORE_PACKAGES: '["jade"]'
+          IGNORE_PATTERNS: '["*.json"]'
+  run-Eslint-quality-check:
+    name: Run Eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use current action
+        uses: getsentry/action-eslint-fix@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          dry: true
+  prettier:
+    name: Run prettier check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+      - name: Prettify code
+        uses: creyD/prettier_action@v2.2
+        with:
+          prettier_options: --write **/*.{js,md}

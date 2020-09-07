@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import ProductsList from './ProductsList';
-import Product from './ProductComp';
+import Product from './Product';
 import ProductsData from '../data/db.json';
 
 const { products } = ProductsData;
