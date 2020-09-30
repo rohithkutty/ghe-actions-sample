@@ -1,7 +1,7 @@
 name: Test & Build workflow
 
 on:
-  - push:
+  push:
     branches:
       - master
 
@@ -50,26 +50,47 @@ jobs:
   #         node -v
   #         npm -v
   #         npm install
-  #         npm run test -- --watchAll=false
+  #         npm run test -- --coverage --watchAll=false
   #         npm run build
-  sonarQubeTrigger:
-    name: Quality gate - SonarQube
+  # sonarQubeTrigger:
+  #   name: Quality gate - SonarQube
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         # Disabling shallow clone is recommended for improving relevancy of reporting
+  #         fetch-depth: 0
+  #     - name: Generate unit-test coverage folder
+  #       # working-directory: ${{ github.workspace }}
+  #       run: |
+  #         npm install
+  #         npm run test -- --coverage --watchAll=false
+  #         rm -rf node_modules
+  #         ls -lRt
+  #         pwd
+  #     - name: SonarQube Scan
+  #       uses: kitabisa/sonarqube-action@master
+  #       with:
+  #         host: ${{ secrets.SONAR_HOST }}
+  #         login: ${{ secrets.SONAR_TOKEN }}
+  nexusArtifactory:
+    name: Nexus Repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-      - name: Generate unit-test coverage folder
-        # working-directory: ${{ github.workspace }}
+      - uses: actions/checkout@v2
+      - name: Build with Node JS
         run: |
           npm install
-          npm run test -- --coverage --watchAll=false
-          rm -rf node_modules
-          ls -lRt
-          pwd
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@master
+          npm run build
+          zip -r sample-release.zip build/
+      - name: Nexus Repo Publish
+        uses: sonatype-nexus-community/nexus-repo-github-action@master
         with:
-          host: ${{ secrets.SONAR_HOST }}
-          login: ${{ secrets.SONAR_TOKEN }}
+          serverUrl: ${{ secrets.NEXUS_HOST }}
+          username: admin
+          password: ${{ secrets.NEXUS_PSWD }}
+          format: npm
+          repository: cwa-release
+          coordinates: groupId=com.cwaWebApps artifactId=app version=1.0.0
+          assets: extension=jar
+          filename: ./sample-release.zip

@@ -2,7 +2,7 @@ name: Test & Build workflow
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, reopened]
 
 jobs:
   npm-dependency-check-unused-packages:
@@ -36,5 +36,16 @@ jobs:
           ref: ${{ github.head_ref }}
       - name: Prettify code
         uses: creyD/prettier_action@v2.2
-        with:
-          prettier_options: --write **/*.{js,md}
+  run-unit-testing-and-build-artefacts:
+    name: Install node_modules & Run unit test scripts and generate coverge report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install node_modules & Run Unit test & Build artefacts
+        working-directory: ${{ github.workspace }}
+        run: |
+          node -v
+          npm -v
+          npm install
+          npm run test -- --coverage --watchAll=false
+          npm run build
