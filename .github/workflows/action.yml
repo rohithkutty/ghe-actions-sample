@@ -6,91 +6,68 @@ on:
       - master
 
 jobs:
-  # npm-dependency-check-unused-packages:
-  #   name: Check Unused dependencies
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - name: packages check
-  #       uses: Amr-Reda/npm-unused-packages-checker@v1
-  #       with:
-  #         IGNORE_PACKAGES: '["jade"]'
-  #         IGNORE_PATTERNS: '["*.json"]'
-  # run-Eslint-quality-check:
-  #   name: Run Eslint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - name: Use current action
-  #       uses: getsentry/action-eslint-fix@v1
-  #       with:
-  #         GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
-  #         dry: true
-  # prettier:
-  #   name: Run prettier check
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #         # Make sure the actual branch is checked out when running on pull requests
-  #         ref: ${{ github.head_ref }}
-  #     - name: Prettify code
-  #       uses: creyD/prettier_action@v2.2
-  #       with:
-  #         prettier_options: --write **/*.{js,md}
-  # run-unit-testing-and-build-artefacts:
-  #   name: Install node_modules & Run unit test scripts and generate coverge report
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@master
-  #     - name: Install node_modules & Run Unit test & Build artefacts
-  #       working-directory: ${{ github.workspace }}
-  #       run: |
-  #         node -v
-  #         npm -v
-  #         npm install
-  #         npm run test -- --coverage --watchAll=false
-  #         npm run build
-  # sonarQubeTrigger:
-  #   name: Quality gate - SonarQube
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@master
-  #       with:
-  #         # Disabling shallow clone is recommended for improving relevancy of reporting
-  #         fetch-depth: 0
-  #     - name: Generate unit-test coverage folder
-  #       # working-directory: ${{ github.workspace }}
-  #       run: |
-  #         npm install
-  #         npm run test -- --coverage --watchAll=false
-  #         rm -rf node_modules
-  #         ls -lRt
-  #         pwd
-  #     - name: SonarQube Scan
-  #       uses: kitabisa/sonarqube-action@master
-  #       with:
-  #         host: ${{ secrets.SONAR_HOST }}
-  #         login: ${{ secrets.SONAR_TOKEN }}
-  nexusArtifactory:
-    name: Nexus Repository
+  run-unit-testing-and-build-artefacts:
+    name: Install node_modules & Run unit test scripts and generate coverge report
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Build with Node JS
+      - uses: actions/checkout@master
+      - name: Install node_modules & Run Unit test & Build artefacts
+        working-directory: ${{ github.workspace }}
+        run: |
+          node -v
+          npm -v
+          npm install
+          npm run test -- --coverage --watchAll=false
+          npm run build
+  sonarQubeTrigger:
+    name: Quality gate - SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      - name: Generate unit-test coverage folder
+        # working-directory: ${{ github.workspace }}
         run: |
           npm install
-          npm run build
-          zip -r sample-release.zip build/
-      - name: Nexus Repo Publish
-        uses: sonatype-nexus-community/nexus-repo-github-action@master
+          npm run test -- --coverage --watchAll=false
+          rm -rf node_modules
+          ls -lRt
+          pwd
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@master
         with:
-          serverUrl: ${{ secrets.NEXUS_HOST }}
-          username: admin
-          password: ${{ secrets.NEXUS_PSWD }}
-          format: npm
-          repository: cwa-release
-          coordinates: groupId=com.cwaWebApps artifactId=app version=1.0.0
-          assets: extension=jar
-          filename: ./sample-release.zip
+          host: ${{ secrets.SONAR_HOST }}
+          login: ${{ secrets.SONAR_TOKEN }}
+  # nexusArtifactory:
+  #   name: Nexus Repository
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Build with Node JS
+  #       run: |
+  #         npm install
+  #         npm run build
+  #         zip -r sample-release.zip build/
+  #     - name: Nexus Repo Publish
+  #       uses: sonatype-nexus-community/nexus-repo-github-action@master
+  #       with:
+  #         serverUrl: ${{ secrets.NEXUS_HOST }}
+  #         username: admin
+  #         password: ${{ secrets.NEXUS_PSWD }}
+  #         format: npm
+  #         repository: cwa-release
+  #         coordinates: groupId=com.cwaWebApps artifactId=app version=1.0.0
+  #         assets: extension=jar
+  #         filename: ./sample-release.zip
+  name: Chrome headless
+  jobs:
+    cypress-run:
+      runs-on: ubuntu-16.04
+      steps:
+        - uses: actions/checkout@v1
+        - uses: cypress-io/github-action@v2
+          with:
+            browser: chrome
+            headless: true
