@@ -61,14 +61,12 @@ jobs:
   #         coordinates: groupId=com.cwaWebApps artifactId=app version=1.0.0
   #         assets: extension=jar
   #         filename: ./sample-release.zip
-  cypress_testing:
-    name: Chrome headless
-    jobs:
-      cypress-run:
-        runs-on: ubuntu-16.04
-        steps:
-          - uses: actions/checkout@v1
-          - uses: cypress-io/github-action@v2
-            with:
-              browser: chrome
-              headless: true
+  cypress-run:
+    name: Cypress testing
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
