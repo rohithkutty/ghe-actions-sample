@@ -33,7 +33,7 @@ jobs:
           pwd
           cd /
           pwd
-          mkdir /github/workspace
+          mkdir -p /github/workspace
           cd /github/workspace
           pwd
           cat coverage/lcov.info
