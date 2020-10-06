@@ -39,7 +39,6 @@ jobs:
           ls -lRt
           pwd
       - name: SonarQube Scan
-        needs: [Generate unit-test coverage folder]
         uses: kitabisa/sonarqube-action@master
         with:
           projectBaseDir: '/home/runner/work/ghe-actions-sample/ghe-actions-sample'
