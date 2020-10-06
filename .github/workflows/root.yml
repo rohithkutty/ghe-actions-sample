@@ -33,6 +33,7 @@ jobs:
           pwd
           cd /
           pwd
+          ls -al
           mkdir -p /github/workspace
           cd /github/workspace
           pwd
