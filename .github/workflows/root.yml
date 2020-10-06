@@ -38,8 +38,8 @@ jobs:
           ls -lRt
           pwd
       - name: SonarQube Scan
-        working-directory: /home/runner/work/ghe-actions-sample/ghe-actions-sample
         uses: kitabisa/sonarqube-action@master
+        working-directory: /home/runner/work/ghe-actions-sample/ghe-actions-sample
         with:
           host: ${{ secrets.SONAR_HOST }}
           login: ${{ secrets.SONAR_TOKEN }}
