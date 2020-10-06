@@ -35,18 +35,16 @@ jobs:
           pwd
           mkdir /github/workspace
           cd /github/workspace
-          npm install
-          npm run test -- --coverage --watchAll=false
           pwd
           cat coverage/lcov.info
           rm -rf node_modules
           ls -lRt
           pwd
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@master
-        with:
-          host: ${{ secrets.SONAR_HOST }}
-          login: ${{ secrets.SONAR_TOKEN }}
+      # - name: SonarQube Scan
+      #   uses: kitabisa/sonarqube-action@master
+      #   with:
+      #     host: ${{ secrets.SONAR_HOST }}
+      #     login: ${{ secrets.SONAR_TOKEN }}
   # cypress-run:
   #   name: Cypress testing
   #   runs-on: ubuntu-16.04
