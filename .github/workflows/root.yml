@@ -17,8 +17,8 @@ jobs:
   #       run: |
   #         node -v
   #         npm -v
-  #         npm install
-  #         npm run test -- --coverage --watchAll=false
+  # npm install
+  # npm run test -- --coverage --watchAll=false
   #         npm run build
   sonarQubeTrigger:
     name: Quality gate - SonarQube
@@ -31,21 +31,18 @@ jobs:
       - name: Generate unit-test coverage folder
         run: |
           pwd
-          cd /
-          pwd
-          ls -al
-          mkdir -p /github/workspace
-          cd /github/workspace
-          pwd
+          npm install
+          npm run test -- --coverage --watchAll=false
           cat coverage/lcov.info
           rm -rf node_modules
           ls -lRt
           pwd
-      # - name: SonarQube Scan
-      #   uses: kitabisa/sonarqube-action@master
-      #   with:
-      #     host: ${{ secrets.SONAR_HOST }}
-      #     login: ${{ secrets.SONAR_TOKEN }}
+      - name: SonarQube Scan
+        working-directory: /home/runner/work/ghe-actions-sample/ghe-actions-sample
+        uses: kitabisa/sonarqube-action@master
+        with:
+          host: ${{ secrets.SONAR_HOST }}
+          login: ${{ secrets.SONAR_TOKEN }}
   # cypress-run:
   #   name: Cypress testing
   #   runs-on: ubuntu-16.04
