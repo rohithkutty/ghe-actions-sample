@@ -23,13 +23,15 @@ jobs:
   sonarQubeTrigger:
     name: Quality gate - SonarQube
     runs-on: ubuntu-latest
+    env:
+      working-directory: /home/runner/work/ghe-actions-sample/ghe-actions-sample
     steps:
       - uses: actions/checkout@master
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
       - name: Generate unit-test coverage folder
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{env.working-directory}}
         run: |
           npm install
           npm run test -- --coverage --watchAll=false
@@ -40,6 +42,7 @@ jobs:
           pwd
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@master
+        working-directory: ${{env.working-directory}}
         with:
           host: ${{ secrets.SONAR_HOST }}
           login: ${{ secrets.SONAR_TOKEN }}
