@@ -6,10 +6,6 @@ on:
       - master
       - release
 
-defaults:
-  run:
-    working-directory: /github/workspace
-
 jobs:
   # run-unit-testing-and-build-artefacts:
   #   name: Install node_modules & Run unit test scripts and generate coverge report
@@ -34,6 +30,11 @@ jobs:
           fetch-depth: 0
       - name: Generate unit-test coverage folder
         run: |
+          pwd
+          cd /
+          pwd
+          mkdir /github/workspace
+          cd /github/workspace
           npm install
           npm run test -- --coverage --watchAll=false
           pwd
