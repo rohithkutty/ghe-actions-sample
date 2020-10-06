@@ -41,7 +41,6 @@ jobs:
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@master
         with:
-          projectBaseDir: '/home/runner/work/ghe-actions-sample/ghe-actions-sample'
           host: ${{ secrets.SONAR_HOST }}
           login: ${{ secrets.SONAR_TOKEN }}
   # cypress-run:
