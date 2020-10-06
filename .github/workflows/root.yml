@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: web
+    working-directory: /home/runner/work/ghe-actions-sample/ghe-actions-sample
 
 jobs:
   # run-unit-testing-and-build-artefacts:
