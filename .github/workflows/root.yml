@@ -20,29 +20,23 @@ jobs:
   # npm install
   # npm run test -- --coverage --watchAll=false
   #         npm run build
-  sonarQubeTrigger:
-    name: Quality gate - SonarQube
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-      - name: Generate unit-test coverage folder
-        run: |
-          pwd
-          npm install
-          npm run test -- --coverage --watchAll=false
-          cat coverage/lcov.info
-          rm -rf node_modules
-          ls -lRt
-          pwd
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@master
-        working-directory: /home/runner/work/ghe-actions-sample/ghe-actions-sample
-        with:
-          host: ${{ secrets.SONAR_HOST }}
-          login: ${{ secrets.SONAR_TOKEN }}
+  # sonarQubeTrigger:
+  #   name: Quality gate - SonarQube
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         # Disabling shallow clone is recommended for improving relevancy of reporting
+  #         fetch-depth: 0
+  #     - name: Generate unit-test coverage folder
+  #       run: |
+  #         npm install
+  #         npm run test -- --coverage --watchAll=false
+  #     - name: SonarQube Scan
+  #       uses: kitabisa/sonarqube-action@master
+  #       with:
+  #         host: ${{ secrets.SONAR_HOST }}
+  #         login: ${{ secrets.SONAR_TOKEN }}
   # cypress-run:
   #   name: Cypress testing
   #   runs-on: ubuntu-16.04
@@ -52,3 +46,22 @@ jobs:
   #       with:
   #         browser: chrome
   #         headless: true
+  docker-build-and-push:
+    name: Docker Build & push
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ghe-actions:latest
