@@ -75,6 +75,7 @@ jobs:
         run: |
           pwd
           ls -al
+          cp -r /home/runner/work/${{ secrets.HEROKU_APP_NAME }}-sample/${{ secrets.HEROKU_APP_NAME }}-sample/** /home/runner
       - name: Build, Push and Deploy to Heroku
         id: heroku
         uses: jctaveras/heroku-deploy@v1.0.0
