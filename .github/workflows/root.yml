@@ -79,7 +79,6 @@ jobs:
       - name: Build, Push and Deploy to Heroku
         id: heroku
         uses: jctaveras/heroku-deploy@v1.0.0
-        working-directory: /home/runner/work/${{ secrets.HEROKU_APP_NAME }}-sample/${{ secrets.HEROKU_APP_NAME }}-sample
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
           api_key: ${{ secrets.HEROKU_API_KEY }}
