@@ -21,7 +21,6 @@ jobs:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
       - name: Run Eslint
-        if: ${{ success() }}
         uses: getsentry/action-eslint-fix@v1
         with:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
