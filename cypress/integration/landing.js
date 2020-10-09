@@ -1,6 +1,6 @@
 describe('Login Component Render Check', () => {
   beforeEach(() => {
-    cy.visit('https://d28e22893a36.ngrok.io');
+    cy.visit('https://ghe-actions.herokuapp.com/');
   });
   it('Should Render on DOM', () => {
     cy.contains('Products list').should('be.visible');
