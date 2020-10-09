@@ -1,44 +1,38 @@
-name: Test & Build workflow
+name: Feature / Develop /Pull Request workflow
 
 on:
+  push:
+    branches:
+      - 'feature/**'
+      - develop
   pull_request:
     types: [opened, reopened]
 
 jobs:
-  npm-dependency-check-unused-packages:
-    name: Check Unused dependencies
+  standard_code_analysis:
+    name: Standard code analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: packages check
+      - name: Check Unused dependencies
+        if: ${{ success() && github.event_name != 'pull_request' }}
         uses: Amr-Reda/npm-unused-packages-checker@v1
         with:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
-  run-Eslint-quality-check:
-    name: Run Eslint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use current action
+      - name: Run Eslint
+        if: ${{ success() }}
         uses: getsentry/action-eslint-fix@v1
         with:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
           dry: true
-  prettier:
-    name: Run prettier check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
-      - name: Prettify code
+      - name: Run Prettier check for code formatting
+        if: ${{ success() && github.event_name != 'pull_request' }}
         uses: creyD/prettier_action@v2.2
-  run-unit-testing-and-build-artefacts:
+  run_unit_testing_and_build_artefacts:
     name: Install node_modules & Run unit test scripts and generate coverge report
     runs-on: ubuntu-latest
+    needs: standard_code_analysis
     steps:
       - uses: actions/checkout@master
       - name: Install node_modules & Run Unit test & Build artefacts
