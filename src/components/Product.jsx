@@ -12,7 +12,7 @@ const Product = ({ id, name, quantity, price }) => {
   );
 };
 
-MyComponent.propTypes = {
+Product.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   quantity: PropTypes.number,
