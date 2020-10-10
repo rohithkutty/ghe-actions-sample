@@ -5,8 +5,6 @@ on:
     branches:
       - 'feature/**'
       - develop
-  pull_request:
-    types: [opened, reopened]
 
 jobs:
   standard_code_analysis:
@@ -15,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Check Unused dependencies
-        if: github.event_name == 'push'
+        if: github.ref != contains(github.ref, 'develop')
         uses: Amr-Reda/npm-unused-packages-checker@v1
         with:
           IGNORE_PACKAGES: '["jade"]'
@@ -27,7 +25,7 @@ jobs:
           npm i eslint
           ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
       - name: Run Prettier check for code formatting
-        if: github.event_name == 'push'
+        if: github.ref != contains(github.ref, 'develop')
         uses: creyD/prettier_action@v2.2
   run_unit_testing_and_build_artefacts:
     name: Install node_modules & Run unit test scripts and generate coverge report
