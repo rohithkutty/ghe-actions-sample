@@ -20,6 +20,8 @@ jobs:
         with:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
+      - name: Install ESLint for code analysis
+        run: npm i eslint
       - name: Run ESLint
         run: eslint . --ext .js,.jsx,.ts,.tsx
       - name: Run Prettier check for code formatting
