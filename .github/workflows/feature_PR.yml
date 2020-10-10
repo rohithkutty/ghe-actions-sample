@@ -22,7 +22,7 @@ jobs:
           IGNORE_PATTERNS: '["*.json"]'
       - name: Install and Run ESLint
         run: |
-          npm i eslint
+          npm i eslint -g
           eslint . --ext .js,.jsx,.ts,.tsx
       - name: Run Prettier check for code formatting
         if: github.event_name == 'push'
