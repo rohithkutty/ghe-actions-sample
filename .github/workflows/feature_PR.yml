@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Check Unused dependencies
-        if: ${{ github.event_name != 'pull_request' }}
+        if: github.event_name != 'pull_request'
         uses: Amr-Reda/npm-unused-packages-checker@v1
         with:
           IGNORE_PACKAGES: '["jade"]'
@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
           dry: true
       - name: Run Prettier check for code formatting
-        if: ${{ github.event_name != 'pull_request' }}
+        if: github.event_name != 'pull_request'
         uses: creyD/prettier_action@v2.2
   run_unit_testing_and_build_artefacts:
     name: Install node_modules & Run unit test scripts and generate coverge report
