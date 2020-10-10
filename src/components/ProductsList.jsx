@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import Product from './Product';
 import './ProductsList.styles.css';
@@ -16,8 +15,8 @@ const ProductsList = ({ productsList }) => {
       </thead>
       <tbody>
         {productsList &&
-          productsList.map(({ id, ...remainingProductDetails }) => (
-            <Product key={id} id={id} {...remainingProductDetails} />
+          productsList.map(({ id, name, quantity, price }) => (
+            <Product key={id} id={id} name={name} quantity={quantity} price={price} />
           ))}
       </tbody>
     </table>
