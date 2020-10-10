@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import Product from './Product';
 import './ProductsList.styles.css';
