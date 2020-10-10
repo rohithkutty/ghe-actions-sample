@@ -9,7 +9,7 @@ export default class AllProductsPage extends Component {
     const { products } = ProductsData;
     return (
       <div>
-        <h2 className='products-header'>Products list</h2>
+        <h2 className='products-header'>Products Inventory list</h2>
         <ProductsList productsList={products} />
       </div>
     );

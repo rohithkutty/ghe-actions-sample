@@ -14,7 +14,7 @@ describe('AllProductsPage.jsx', () => {
   });
 
   it('should render the correct heading', () => {
-    expect(wrapper.find('h2').text()).toEqual('Products list');
+    expect(wrapper.find('h2').text()).toEqual('Products Inventory list');
   });
 });
 

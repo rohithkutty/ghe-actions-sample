@@ -1,12 +1,10 @@
-name: Feature / Develop /Pull Request workflow
+name: Feature / Develop branch workflow
 
 on:
   push:
     branches:
       - 'feature/**'
       - develop
-  pull_request:
-    types: [opened, reopened]
 
 jobs:
   standard_code_analysis:
@@ -15,19 +13,19 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Check Unused dependencies
-        if: ${{ success() && github.event_name != 'pull_request' }}
+        if: github.ref != contains(github.ref, 'refs/head/develop')
         uses: Amr-Reda/npm-unused-packages-checker@v1
         with:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
-      - name: Run Eslint
-        if: ${{ success() }}
-        uses: getsentry/action-eslint-fix@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          dry: true
+      - name: Install and Run ESLint
+        run: |
+          pwd
+          ls -al
+          npm i eslint
+          ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
       - name: Run Prettier check for code formatting
-        if: ${{ success() && github.event_name != 'pull_request' }}
+        if: github.ref != contains(github.ref, 'refs/head/develop')
         uses: creyD/prettier_action@v2.2
   run_unit_testing_and_build_artefacts:
     name: Install node_modules & Run unit test scripts and generate coverge report
