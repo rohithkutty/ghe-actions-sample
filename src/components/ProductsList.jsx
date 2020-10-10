@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Product from './Product';
 import './ProductsList.styles.css';
 
@@ -21,6 +22,10 @@ const ProductsList = ({ productsList }) => {
       </tbody>
     </table>
   );
+};
+
+ProductsList.propTypes = {
+  productsList: PropTypes.array,
 };
 
 export default ProductsList;
