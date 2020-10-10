@@ -20,10 +20,11 @@ jobs:
         with:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
-      - name: Install and Run ESLint
-        run: |
-          npm i eslint -g
-          eslint . --ext .js,.jsx,.ts,.tsx
+      - name: Run Eslint
+        uses: getsentry/action-eslint-fix@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          dry: true
       - name: Run Prettier check for code formatting
         if: github.event_name == 'push'
         uses: creyD/prettier_action@v2.2
