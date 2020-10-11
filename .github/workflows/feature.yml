@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: logger
-        run: echo ${{ toJson(github) }}
+        run: echo ${{ startsWith(github.event.head_commit.message, 'QG:') }}
       # - uses: actions/checkout@v1
       # - name: Check Unused dependencies
       #   if: github.ref != 'refs/heads/develop'
