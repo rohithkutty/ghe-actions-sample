@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: log values
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ contains(github.ref, 'develop') }}
+          echo ${{ github.ref != 'refs/head/develop' }}
       - name: Check Unused dependencies
         if: github.ref != 'refs/head/develop'
         uses: Amr-Reda/npm-unused-packages-checker@v1
