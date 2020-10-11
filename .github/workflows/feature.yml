@@ -12,11 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: log values
-        run: |
-          echo ${{ github.ref }}
-          echo ${{ contains(github.ref, 'develop') }}
-          echo ${{ github.ref != 'refs/head/develop' }}
       - name: Check Unused dependencies
         if: github.ref != 'refs/head/develop'
         uses: Amr-Reda/npm-unused-packages-checker@v1
@@ -24,16 +19,16 @@ jobs:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
       - name: Run Prettier check for code formatting
-        if: contains(github.ref, 'develop')
+        if: github.ref != 'refs/head/develop'
         uses: creyD/prettier_action@v2.2
-      # - name: NPM Install (node_modules installation)
-      #   run: npm i
-      # - name: Run ESLint
-      #   run: |
-      #     ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
-      # - name: Run Unit test & Build artefacts
-      #   working-directory: ${{ github.workspace }}
-      #   run: |
-      #     npm install
-      #     npm run test -- --coverage --watchAll=false
-      #     npm run build
+      - name: NPM Install (node_modules installation)
+        run: npm i
+      - name: Run ESLint
+        run: |
+          ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
+      - name: Run Unit test & Build artefacts
+        working-directory: ${{ github.workspace }}
+        run: |
+          npm install
+          npm run test -- --coverage --watchAll=false
+          npm run build
