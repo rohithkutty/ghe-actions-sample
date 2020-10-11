@@ -36,15 +36,15 @@ jobs:
       - name: Run ESLint
         run: |
           ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
-      - name: Run Unit test & Build artefacts
+      - name: Generate Build artefacts
         working-directory: ${{ github.workspace }}
         run: npm run build
       - name: Run Unit test
-        if: github.event.inputs.unitTest
+        if: ${{github.event.inputs.unitTest}}
         working-directory: ${{ github.workspace }}
         run: npm run test -- --coverage --watchAll=false
   sonarQubeTrigger:
-    if: startsWith(github.event.head_commit.message, 'QG:') || github.event.inputs.sonarqube
+    if: startsWith(github.event.head_commit.message, 'QG:') || ${{github.event.inputs.sonarqube}}
     name: Quality gate - SonarQube
     runs-on: ubuntu-latest
     needs: standard_code_analysis
