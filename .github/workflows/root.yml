@@ -21,6 +21,7 @@ jobs:
           npm run test -- --coverage --watchAll=false
           npm run build
   sonarQubeTrigger:
+    if: github.ref == 'refs/heads/master'
     name: Quality gate - SonarQube
     runs-on: ubuntu-latest
     needs: run_unit_testing_and_build_artefacts
