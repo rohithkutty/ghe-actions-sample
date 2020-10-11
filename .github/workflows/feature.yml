@@ -26,14 +26,14 @@ jobs:
       - name: Run Prettier check for code formatting
         if: contains(github.ref, 'develop')
         uses: creyD/prettier_action@v2.2
-      - name: NPM Install (node_modules installation)
-        run: npm i
-      - name: Run ESLint
-        run: |
-          ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
-      - name: Run Unit test & Build artefacts
-        working-directory: ${{ github.workspace }}
-        run: |
-          npm install
-          npm run test -- --coverage --watchAll=false
-          npm run build
+      # - name: NPM Install (node_modules installation)
+      #   run: npm i
+      # - name: Run ESLint
+      #   run: |
+      #     ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
+      # - name: Run Unit test & Build artefacts
+      #   working-directory: ${{ github.workspace }}
+      #   run: |
+      #     npm install
+      #     npm run test -- --coverage --watchAll=false
+      #     npm run build
