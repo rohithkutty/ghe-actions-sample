@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: logger
-        run: echo ${{ github }}
+        run: echo ${{ toJson(github) }}
       # - uses: actions/checkout@v1
       # - name: Check Unused dependencies
       #   if: github.ref != 'refs/heads/develop'
