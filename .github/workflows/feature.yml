@@ -13,13 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Check Unused dependencies
-        if: github.ref != contains(github.ref, 'refs/head/develop')
+        if: contains(github.ref, 'develop')
         uses: Amr-Reda/npm-unused-packages-checker@v1
         with:
           IGNORE_PACKAGES: '["jade"]'
           IGNORE_PATTERNS: '["*.json"]'
       - name: Run Prettier check for code formatting
-        if: github.ref != contains(github.ref, 'refs/head/develop')
+        if: contains(github.ref, 'develop')
         uses: creyD/prettier_action@v2.2
       - name: NPM Install (node_modules installation)
         run: npm i
