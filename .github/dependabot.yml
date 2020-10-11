@@ -5,7 +5,38 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Configuration for Dockerfile
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'weekly'
+      # Disable all pull requests for Docker dependencies
+    target-branch: 'develop'
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/' # Location of package manifests
+    schedule:
+      interval: 'daily'
+      time: '09:00'
+      # Use India Standard Time (UTC +05:30)
+      timezone: 'Asia/Kolkata'
+    # Raise pull requests for version updates
+    # to pip against the `develop` branch
+    target-branch: 'develop'
+    # Specify labels for npm pull requests
+    labels:
+      - 'npm'
+      - 'dependencies'
+    reviewers:
+      - 'rohithkutty'
+    allow:
+      # Allow updates for eslint package
+      - dependency-name: 'eslint'
+    # Overwrite any ignores created using `@dependabot ignore` commands
+    ignore:
+      - dependency-name: '@testing-library/react'
+      - dependency-name: 'express'
+        # Ignore only new versions for 4.x and 5.x
+        versions: ['4.x', '5.x']
+    open-pull-requests-limit: 15
