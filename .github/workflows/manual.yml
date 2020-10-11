@@ -1,0 +1,69 @@
+name: Manually triggered workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      unitTest:
+        description: Run Unit test
+        default: true
+        required: false
+      sonarqube:
+        description: Run SonarQube
+        default: false
+        required: false
+
+jobs:
+  standard_code_analysis:
+    name: Standard code analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: logger
+        run: |
+          echo ${{ toJson(github) }}
+  #     - uses: actions/checkout@v1
+  #     - name: Check Unused dependencies
+  #       if: github.ref != 'refs/heads/develop'
+  #       uses: Amr-Reda/npm-unused-packages-checker@v1
+  #       with:
+  #         IGNORE_PACKAGES: '["jade"]'
+  #         IGNORE_PATTERNS: '["*.json"]'
+  #     - name: Run Prettier check for code formatting
+  #       if: github.ref != 'refs/heads/develop'
+  #       uses: creyD/prettier_action@v2.2
+  #     - name: NPM Install (node_modules installation)
+  #       run: npm i
+  #     - name: Run ESLint
+  #       run: |
+  #         ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
+  #     - name: Generate Build artefacts
+  #       working-directory: ${{ github.workspace }}
+  #       run: npm run build
+  #     - name: Run Unit test
+  #       working-directory: ${{ github.workspace }}
+  #       run: npm run test -- --coverage --watchAll=false
+  # sonarQubeTrigger:
+  #   if: startsWith(github.event.head_commit.message, 'QG:') || github.event.inputs.sonarqube == true
+  #   name: Quality gate - SonarQube
+  #   runs-on: ubuntu-latest
+  #   needs: standard_code_analysis
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         # Disabling shallow clone is recommended for improving relevancy of reporting
+  #         fetch-depth: 0
+  #     - name: Generate unit-test coverage folder
+  #       run: |
+  #         npm install
+  #         npm run test -- --coverage --watchAll=false
+  #     - name: fix code coverage paths
+  #       working-directory: ./coverage
+  #       run: |
+  #         sed -i 's/\/home\/runner\/work\/<your-repo-name>\/<your-repo-name>\//\/github\/workspace\//g' lcov.info
+  #     - name: SonarQube Scan
+  #       uses: kitabisa/sonarqube-action@master
+  #       env:
+  #         SONAR_HOST: ${{ secrets.SONAR_HOST }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       with:
+  #         host: $SONAR_HOST
+  #         login: $SONAR_TOKEN
