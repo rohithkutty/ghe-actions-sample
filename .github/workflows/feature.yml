@@ -11,6 +11,7 @@ jobs:
     name: Standard code analysis
     runs-on: ubuntu-latest
     steps:
+      # add "QG:" before commit message to pass
       - name: logger
         run: echo ${{ startsWith(github.event.head_commit.message, 'QG:') }}
       # - uses: actions/checkout@v1
