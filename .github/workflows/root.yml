@@ -40,12 +40,9 @@ jobs:
           sed -i 's/\/home\/runner\/work\/<your-repo-name>\/<your-repo-name>\//\/github\/workspace\//g' lcov.info
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@master
-        env:
-          SONAR_HOST: https://f90e207f3502.ngrok.io/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          host: $SONAR_HOST
-          login: $SONAR_TOKEN
+          host: ${{ secrets.SONAR_HOSTNAME }}
+          login: ${{ secrets.SONAR_TOKEN }}
   build_deploy_to_heroku:
     name: 'Heroku build and deploy'
     runs-on: ubuntu-latest
