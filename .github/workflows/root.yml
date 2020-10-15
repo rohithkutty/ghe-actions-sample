@@ -41,7 +41,7 @@ jobs:
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@master
         env:
-          SONAR_HOST: ${{ secrets.SONAR_HOST }}
+          SONAR_HOST: ${{ secrets.SONAR_HOSTNAME }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           host: $SONAR_HOST
