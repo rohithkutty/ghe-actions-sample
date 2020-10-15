@@ -23,25 +23,26 @@ jobs:
       - name: Run Prettier check for code formatting
         if: github.ref != 'refs/heads/develop'
         run: ./node_modules/.bin/prettier --write ./
-      - name: Create Pull Request for prettier
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.PAT }}
-          commit-message: Update report
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: example-patches
-          delete-branch: true
-          title: 'Formatting Code using Prettier'
-          body: |
-            Formatted the files using Prettier,
-            that aren't formatted yet.
-          labels: |
-            report
-            automated pr
-          assignees: peter-evans
-          reviewers: peter-evans
+      #TODO Need to add condition check for pull request, else commenting it out
+      # - name: Create Pull Request for prettier
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.PAT }}
+      #     commit-message: Update report
+      #     committer: GitHub <noreply@github.com>
+      #     author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+      #     signoff: false
+      #     branch: example-patches
+      #     delete-branch: true
+      #     title: 'Formatting Code using Prettier'
+      #     body: |
+      #       Formatted the files using Prettier,
+      #       that aren't formatted yet.
+      #     labels: |
+      #       report
+      #       automated pr
+      #     assignees: peter-evans
+      #     reviewers: peter-evans
       - name: Run ESLint
         run: |
           ./node_modules/.bin/eslint src/ --ext .js,.jsx,.ts,.tsx
