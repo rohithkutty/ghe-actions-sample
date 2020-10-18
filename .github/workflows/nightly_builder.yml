@@ -1,9 +1,12 @@
 name: Nightly Builder Job workflow
 
 on:
-  schedule:
-    - cron: '0 20 * * 1-6'
-    # cron job runs on basis of GMT time
+  push:
+    branches: 
+      - ignore
+#   schedule:
+#     - cron: '0 20 * * 1-6'
+#     # cron job runs on basis of GMT time
 
 jobs:
   run-unit-testing-and-build-artefacts:
